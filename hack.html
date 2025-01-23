@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Hacker Typer</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 16px;
+            margin: 0;
+            padding: 10px;
+            overflow: hidden;
+        }
+        #output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .char {
+            position: absolute;
+            color: rgba(0, 255, 0, 0.7);
+            font-size: 14px;
+            animation: fade 3s linear forwards;
+        }
+        @keyframes fade {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(500px); }
+        }
+        ::selection {
+            background: #00FF00;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="matrix"></div>
+    <div id="output"></div>
+
+    <script>
+        const output = document.getElementById("output");
+        const matrix = document.getElementById("matrix");
+
+        // 随机生成代码块
+        function generateCodeBlock() {
+            const codeSnippets = [
+                "for (int i = 0; i < n; i++) {",
+                "    if (array[i] > max) {",
+                "        max = array[i];",
+                "    }",
+                "}",
+                "while (isRunning) {",
+                "    System.out.println(\"Accessing system...\");",
+                "    checkSecurityProtocol();",
+                "}",
+                "function connectToServer(ip) {",
+                "    return fetch(ip).then(res => res.json());",
+                "}",
+                "try {",
+                "    executeCommand('rm -rf /');",
+                "} catch (e) {",
+                "    console.error(\"Operation failed: \" + e.message);",
+                "}"
+            ];
+
+            const randomIndex = Math.floor(Math.random() * codeSnippets.length);
+            return codeSnippets[randomIndex];
+        }
+
+        // 模拟输入时的代码输出
+        document.addEventListener("keydown", (event) => {
+            const blockSize = Math.floor(Math.random() * 3) + 1; // 每次输出 1-3 行代码
+            for (let i = 0; i < blockSize; i++) {
+                const codeLine = generateCodeBlock();
+                output.textContent += codeLine + "\n";
+            }
+            window.scrollTo(0, document.body.scrollHeight); // 滚动到底部
+            event.preventDefault(); // 阻止默认输入
+        });
+
+        // 矩阵字符流效果
+        function generateMatrixEffect() {
+            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * -50;
+            const char = document.createElement("span");
+            char.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+            char.style.left = `${x}px`;
+            char.style.top = `${y}px`;
+            char.className = "char";
+            matrix.appendChild(char);
+
+            setTimeout(() => matrix.removeChild(char), 3000); // 清理字符
+        }
+
+        // 循环生成字符流
+        setInterval(generateMatrixEffect, 50);
+
+        // 添加随机屏幕闪烁效果
+        function flashScreen() {
+            const flash = document.createElement("div");
+            flash.style.position = "fixed";
+            flash.style.top = "0";
+            flash.style.left = "0";
+            flash.style.width = "100%";
+            flash.style.height = "100%";
+            flash.style.background = "rgba(0, 255, 0, 0.2)";
+            flash.style.zIndex = "2";
+            document.body.appendChild(flash);
+
+            setTimeout(() => document.body.removeChild(flash), 100);
+        }
+
+        // 按键时触发屏幕闪烁
+        document.addEventListener("keydown", flashScreen);
+    </script>
+</body>
+</html>
